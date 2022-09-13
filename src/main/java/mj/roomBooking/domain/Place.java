@@ -7,28 +7,20 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @NoArgsConstructor
 @Getter
 @Entity
-public class Meeting {
+public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "meeting")
-    private List<MeetingMember> members;
-
-    @OneToOne
-    @JoinColumn(name = "meeting_content_id")
-    private MeetingContent content;
-
-    @OneToMany
-    @JoinColumn(name = "meeting_id")
-    private List<Place> places;
+    @ManyToOne
+    @JoinColumn(name = "meeting_id", updatable = false, insertable = false)
+    private Meeting meeting;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
