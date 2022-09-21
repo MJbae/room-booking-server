@@ -19,8 +19,7 @@ public class Meeting extends BaseEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "meeting")
     private List<MeetingMember> members;
 
-    @OneToOne
-    @JoinColumn(name = "meeting_content_id")
+    @Embedded
     private MeetingContent content;
 
     @OneToMany
