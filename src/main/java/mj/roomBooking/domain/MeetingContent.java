@@ -7,8 +7,8 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
-@Embeddable
-public class MeetingContent {
+@Entity
+public class MeetingContent extends BaseEntity {
 
     private String content;
 
