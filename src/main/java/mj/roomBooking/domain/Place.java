@@ -2,11 +2,8 @@ package mj.roomBooking.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -15,7 +12,7 @@ public class Place extends BaseEntity{
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Meeting.class)
     @JoinColumn(name = "meeting_id", updatable = false, insertable = false)
     private Meeting meeting;
 }
