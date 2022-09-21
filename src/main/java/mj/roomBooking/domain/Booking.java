@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn
 public abstract class Booking extends BaseEntity {
-
     @OneToOne
     @JoinColumn(name = "meeting_id")
     private Meeting meeting;

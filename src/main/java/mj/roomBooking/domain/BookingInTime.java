@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
 public class BookingInTime extends Booking {
     private LocalDateTime bookingDateTime;
 }
