@@ -11,10 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
-public class MeetingMember {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class MeetingMember extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Member.class, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
@@ -27,10 +24,4 @@ public class MeetingMember {
     private Boolean isAttendee;
 
     private Boolean isReference;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }

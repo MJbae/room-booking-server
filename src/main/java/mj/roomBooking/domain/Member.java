@@ -10,20 +10,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Member extends BaseEntity{
 
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Team.class, optional = false)
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }

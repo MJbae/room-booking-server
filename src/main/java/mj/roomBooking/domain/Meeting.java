@@ -12,10 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Meeting {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Meeting extends BaseEntity {
 
     private String title;
 
@@ -29,10 +26,4 @@ public class Meeting {
     @OneToMany
     @JoinColumn(name = "meeting_id")
     private List<Place> places;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }

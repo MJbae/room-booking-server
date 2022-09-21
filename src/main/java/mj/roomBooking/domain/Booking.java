@@ -13,18 +13,9 @@ import java.time.LocalDateTime;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn
-public abstract class Booking {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public abstract class Booking extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "meeting_id")
     private Meeting meeting;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }
