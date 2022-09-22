@@ -8,7 +8,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-public class MeetingMember extends BaseEntity{
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
+public abstract class MeetingMember extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Member.class)
     @JoinColumn(name = "member_id", nullable = false)
@@ -17,8 +19,4 @@ public class MeetingMember extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Meeting.class)
     @JoinColumn(name = "meeting_id", nullable = false)
     private Meeting meeting;
-
-    private Boolean isAttendee;
-
-    private Boolean isReference;
 }
