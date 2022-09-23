@@ -1,6 +1,7 @@
 package mj.roomBooking.application;
 
 import mj.roomBooking.domain.Member;
+import mj.roomBooking.domain.Team;
 import mj.roomBooking.infra.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,8 @@ public class MemberService {
         this.repository = repository;
     }
 
-    public Member createWith() {
-        return repository.save(new Member());
+    public Member createWith(String name, Team team) {
+        return repository.save(new Member(name, team));
     }
 
 
