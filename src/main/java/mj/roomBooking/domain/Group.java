@@ -11,4 +11,8 @@ import javax.persistence.*;
 public class Group extends BaseEntity {
 
     private String name;
+
+    public Group(String name){
+        this.name = name;
+    }
 }

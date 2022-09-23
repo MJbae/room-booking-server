@@ -14,4 +14,9 @@ public class Member extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Team.class)
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
+
+    public Member(String name, Team team){
+        this.name = name;
+        this.team = team;
+    }
 }
