@@ -8,11 +8,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Group extends BaseEntity {
+public class Organization extends BaseEntity {
 
     private String name;
 
-    public Group(String name){
+    public Organization(String name){
         this.name = name;
     }
 }

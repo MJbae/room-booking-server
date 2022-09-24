@@ -1,6 +1,6 @@
 package mj.roomBooking.infra;
 
-import mj.roomBooking.domain.Group;
+import mj.roomBooking.domain.Organization;
 import mj.roomBooking.domain.Member;
 import mj.roomBooking.domain.Team;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,12 +35,12 @@ class MemberRepositoryTest {
     private Member member;
     private Member memberReturned;
     private Team team;
-    private Group group;
+    private Organization organization;
 
     @BeforeEach
     void setUp() {
-        group = new Group(GROUP_NAME);
-        team = new Team(TEAM_NAME, group);
+        organization = new Organization(GROUP_NAME);
+        team = new Team(TEAM_NAME, organization);
         member = new Member(MEMBER_NAME, team);
         memberReturned = new Member();
     }
@@ -53,7 +53,7 @@ class MemberRepositoryTest {
         class Context_with_member_entity_saved {
             @BeforeEach
             void setUp() {
-                groupRepository.save(group);
+                groupRepository.save(organization);
                 teamRepository.save(team);
                 memberReturned = repository.save(member);
             }

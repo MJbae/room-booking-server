@@ -11,12 +11,12 @@ public class Team extends BaseEntity{
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Group.class)
-    @JoinColumn(name = "group_id", nullable = false)
-    private Group group;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Organization.class)
+    @JoinColumn(name = "organization_id", nullable = false)
+    private Organization organization;
 
-    public Team(String name, Group group){
+    public Team(String name, Organization organization){
         this.name = name;
-        this.group = group;
+        this.organization = organization;
     }
 }

@@ -1,11 +1,9 @@
 package mj.roomBooking.application;
 
-import mj.roomBooking.domain.Group;
+import mj.roomBooking.domain.Organization;
 import mj.roomBooking.domain.Member;
 import mj.roomBooking.domain.Team;
-import mj.roomBooking.infra.GroupRepository;
 import mj.roomBooking.infra.MemberRepository;
-import mj.roomBooking.infra.TeamRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -29,13 +27,13 @@ class MemberServiceTest {
     private final String TEAM_NAME = "모바일본부";
     private Member member;
     private Team team;
-    private Group group;
+    private Organization organization;
 
     @BeforeEach
     void setUp() {
         service = new MemberService(memberRepository);
-        group = new Group(GROUP_NAME);
-        team = new Team(TEAM_NAME, group);
+        organization = new Organization(GROUP_NAME);
+        team = new Team(TEAM_NAME, organization);
         member = new Member(MEMBER_NAME, team);
     }
 
@@ -66,7 +64,7 @@ class MemberServiceTest {
         void it_returns_exact_team_name_and_group_name() {
             Member memberCreated = service.createWith(MEMBER_NAME, team);
             assertThat(memberCreated.getTeam().getName()).isEqualTo(TEAM_NAME);
-            assertThat(memberCreated.getTeam().getGroup().getName()).isEqualTo(GROUP_NAME);
+            assertThat(memberCreated.getTeam().getOrganization().getName()).isEqualTo(GROUP_NAME);
         }
     }
 
