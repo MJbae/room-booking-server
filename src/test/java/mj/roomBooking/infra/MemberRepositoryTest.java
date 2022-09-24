@@ -30,7 +30,7 @@ class MemberRepositoryTest {
     private GroupRepository groupRepository;
 
     private final String MEMBER_NAME = "배만진";
-    private final String GROUP_NAME = "OGQ";
+    private final String ORGANIZATION_NAME = "OGQ";
     private final String TEAM_NAME = "모바일본부";
     private Member member;
     private Member memberReturned;
@@ -39,7 +39,7 @@ class MemberRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        organization = new Organization(GROUP_NAME);
+        organization = new Organization(ORGANIZATION_NAME);
         team = new Team(TEAM_NAME, organization);
         member = new Member(MEMBER_NAME, team);
         memberReturned = new Member();
@@ -59,9 +59,15 @@ class MemberRepositoryTest {
             }
 
             @Test
-            @DisplayName("팀 엔티티도 함께 저장된 사용자 엔티티를 반환한다")
-            void it_returns_member_entity_containing_team_entity() {
+            @DisplayName("팀 엔티티를 참조할 수 있는 사용자 엔티티를 반환한다")
+            void it_returns_member_referencing_team() {
                 assertThat(memberReturned.getTeam().getName()).isEqualTo(TEAM_NAME);
+            }
+
+            @Test
+            @DisplayName("조직 엔티티를 참조할 수 있는 사용자 엔티티를 반환한다")
+            void it_returns_member_referencing_organization() {
+                assertThat(memberReturned.getTeam().getOrganization().getName()).isEqualTo(ORGANIZATION_NAME);
             }
         }
     }
