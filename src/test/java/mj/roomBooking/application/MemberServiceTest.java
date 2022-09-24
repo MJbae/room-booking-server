@@ -21,8 +21,6 @@ import static org.mockito.Mockito.mock;
 class MemberServiceTest {
     private MemberService service;
     private final MemberRepository memberRepository = mock(MemberRepository.class);
-    private final TeamRepository teamRepository = mock(TeamRepository.class);
-    private final GroupRepository groupRepository = mock(GroupRepository.class);
 
     private final String MEMBER_NAME = "배만진";
     private final String GROUP_NAME = "OGQ";
