@@ -11,7 +11,7 @@ public class Team extends BaseEntity{
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Organization.class)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 
