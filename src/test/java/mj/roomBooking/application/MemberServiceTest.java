@@ -86,8 +86,8 @@ class MemberServiceTest {
         }
 
         @Nested
-        @DisplayName("만약 사용자 두 명이 등록했다면")
-        class Context_with_two_users_enrolled {
+        @DisplayName("만약 사용자들이 등록했다면")
+        class Context_with_users_enrolled {
             private List<Member> membersEnrolled;
             @BeforeEach
             void setUp() {
@@ -98,8 +98,8 @@ class MemberServiceTest {
             }
 
             @Test
-            @DisplayName("두 명의 사용자가 반환된다")
-            void it_returns_collection_containing_two_users() {
+            @DisplayName("모든 사용자들이 반환된다")
+            void it_returns_collection_containing_all_users() {
                 List<Member> memberList = service.loadAll();
                 assertThat(memberList.size()).isEqualTo(membersEnrolled.size());
             }
