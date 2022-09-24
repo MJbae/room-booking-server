@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -30,7 +32,7 @@ class MemberServiceTest {
     private Group group;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         service = new MemberService(memberRepository);
         group = new Group(GROUP_NAME);
         team = new Team(TEAM_NAME, group);
@@ -44,6 +46,7 @@ class MemberServiceTest {
         void setUp() {
             given(memberRepository.save(any())).willReturn(member);
         }
+
         @Test
         @DisplayName("정확한 사용자 이름을 반환한다")
         void it_returns_exact_name() {
@@ -64,6 +67,42 @@ class MemberServiceTest {
             Member memberCreated = service.createWith(MEMBER_NAME, team);
             assertThat(memberCreated.getTeam().getName()).isEqualTo(TEAM_NAME);
             assertThat(memberCreated.getTeam().getGroup().getName()).isEqualTo(GROUP_NAME);
+        }
+    }
+
+    @Nested
+    @DisplayName("loadAll 메소드는")
+    class Describe_loadAll {
+        @BeforeEach
+        void setUp() {
+            given(memberRepository.findAll()).willReturn(List.of());
+        }
+
+        @Test
+        @DisplayName("등록된 사용자가 없으면 빈 리스트를 반환한다")
+        void it_returns_empty_list() {
+            List<Member> memberList = service.loadAll();
+            assertThat(memberList).isEmpty();
+        }
+
+        @Nested
+        @DisplayName("만약 사용자 두 명이 등록했다면")
+        class Context_with_two_users_enrolled {
+            private List<Member> membersEnrolled;
+            @BeforeEach
+            void setUp() {
+                Member firstMember = new Member(MEMBER_NAME, team);
+                Member secondMember = new Member(MEMBER_NAME, team);
+                membersEnrolled = List.of(firstMember, secondMember);
+                given(memberRepository.findAll()).willReturn(membersEnrolled);
+            }
+
+            @Test
+            @DisplayName("두 명의 사용자가 반환된다")
+            void it_returns_collection_containing_two_users() {
+                List<Member> memberList = service.loadAll();
+                assertThat(memberList.size()).isEqualTo(membersEnrolled.size());
+            }
         }
     }
 }
