@@ -3,6 +3,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -14,6 +16,9 @@ public class Team extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
+
+    @OneToMany(mappedBy = "team", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Member> members = new ArrayList<Member>();
 
     public Team(String name, Organization organization){
         this.name = name;
