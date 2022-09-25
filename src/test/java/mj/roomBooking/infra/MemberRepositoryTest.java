@@ -35,6 +35,9 @@ class MemberRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        repository.deleteAll();
+        teamRepository.deleteAll();
+        groupRepository.deleteAll();
         organization = new Organization(ORGANIZATION_NAME);
         team = new Team(TEAM_NAME, organization);
         member = new Member(MEMBER_NAME, team);
@@ -49,8 +52,6 @@ class MemberRepositoryTest {
         class Context_with_member_entity_saved {
             @BeforeEach
             void setUp() {
-                groupRepository.save(organization);
-                teamRepository.save(team);
                 memberReturned = repository.save(member);
             }
 

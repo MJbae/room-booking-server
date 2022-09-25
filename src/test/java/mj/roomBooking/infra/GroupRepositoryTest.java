@@ -36,6 +36,9 @@ class GroupRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        repository.deleteAll();
+        teamRepository.deleteAll();
+        memberRepository.deleteAll();
         organization = new Organization(ORGANIZATION_NAME);
         team = new Team(TEAM_NAME, organization);
         member = new Member(MEMBER_NAME, team);
@@ -54,7 +57,7 @@ class GroupRepositoryTest {
                 memberReturned = memberRepository.save(member);
                 organizationId = memberReturned.getTeam().getOrganization().getId();
                 repository.deleteById(organizationId);
-                teamRepository.deleteById(memberReturned.getTeam().getId());
+//                teamRepository.deleteById(memberReturned.getTeam().getId());
             }
 
             @Test
