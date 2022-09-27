@@ -37,10 +37,10 @@ class MemberRepositoryTest {
         repository.deleteAll();
         teamRepository.deleteAll();
         organizationRepository.deleteAll();
+
         organization = new Organization(ORGANIZATION_NAME);
         team = new Team(TEAM_NAME, organization);
         member = new Member(MEMBER_NAME, team);
-        memberReturned = new Member();
     }
 
     @Nested
@@ -51,19 +51,21 @@ class MemberRepositoryTest {
         class Context_with_member_entity_saved {
             @BeforeEach
             void setUp() {
-                memberReturned = repository.save(member);
+                organization = organizationRepository.save(organization);
+                team = teamRepository.save(team);
+                member = repository.save(member);
             }
 
             @Test
             @DisplayName("팀 엔티티를 참조할 수 있는 사용자 엔티티를 반환한다")
             void it_returns_member_referencing_team() {
-                assertThat(memberReturned.getTeam().getName()).isEqualTo(TEAM_NAME);
+                assertThat(member.getTeam().getName()).isEqualTo(TEAM_NAME);
             }
 
             @Test
             @DisplayName("조직 엔티티를 참조할 수 있는 사용자 엔티티를 반환한다")
             void it_returns_member_referencing_organization() {
-                assertThat(memberReturned.getTeam().getOrganization().getName()).isEqualTo(ORGANIZATION_NAME);
+                assertThat(member.getTeam().getOrganization().getName()).isEqualTo(ORGANIZATION_NAME);
             }
         }
     }

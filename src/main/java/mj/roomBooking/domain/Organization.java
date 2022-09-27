@@ -15,8 +15,8 @@ public class Organization extends BaseEntity {
     private String name;
 
 
-    @OneToMany(mappedBy = "organization", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<Team> teams = new ArrayList<Team>();
+    @OneToMany(mappedBy = "organization")
+    private List<Team> teams = new ArrayList<>();
 
     public Organization(String name){
         this.name = name;

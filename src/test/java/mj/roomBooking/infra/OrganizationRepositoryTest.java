@@ -39,6 +39,7 @@ class OrganizationRepositoryTest {
         repository.deleteAll();
         teamRepository.deleteAll();
         memberRepository.deleteAll();
+
         organization = new Organization(ORGANIZATION_NAME);
         team = new Team(TEAM_NAME, organization);
         member = new Member(MEMBER_NAME, team);
@@ -52,12 +53,22 @@ class OrganizationRepositoryTest {
         @DisplayName("만약 조직 엔티티가 삭제된다면")
         class Context_with_organization_entity_deleted {
             private Long organizationId;
+            private Long teamId;
+            private Long memberId;
             @BeforeEach
             void setUp() {
-                memberReturned = memberRepository.save(member);
-                organizationId = memberReturned.getTeam().getOrganization().getId();
+                organization = repository.save(organization);
+                team = teamRepository.save(team);
+                member = memberRepository.save(member);
+
+                memberId = member.getId();
+                memberRepository.deleteById(memberId);
+
+                teamId = team.getId();
+                teamRepository.deleteById(teamId);
+
+                organizationId = organization.getId();
                 repository.deleteById(organizationId);
-//                teamRepository.deleteById(memberReturned.getTeam().getId());
             }
 
             @Test
@@ -70,7 +81,6 @@ class OrganizationRepositoryTest {
             @Test
             @DisplayName("연관된 팀 엔티티도 함께 삭제시킨다")
             void it_deletes_associated_team() {
-                Long teamId = memberReturned.getTeam().getId();
                 Optional<Team> teamReturned = teamRepository.findById(teamId);
                 assertThat(teamReturned).isEmpty();
             }
@@ -78,7 +88,6 @@ class OrganizationRepositoryTest {
             @Test
             @DisplayName("연관된 사용자 엔티티도 함께 삭제시킨다")
             void it_deletes_associated_member() {
-                Long memberId = memberReturned.getId();
                 Optional<Member> memberReturnedAgain = memberRepository.findById(memberId);
                 assertThat(memberReturnedAgain).isEmpty();
             }
