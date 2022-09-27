@@ -24,7 +24,7 @@ class TeamRepositoryTest {
     @Autowired
     private TeamRepository repository;
     @Autowired
-    private GroupRepository grouprepository;
+    private OrganizationRepository grouprepository;
 
     private final String MEMBER_NAME = "배만진";
     private final String ORGANIZATION_NAME = "OGQ";

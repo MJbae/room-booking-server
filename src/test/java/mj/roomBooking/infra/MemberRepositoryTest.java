@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,7 +22,7 @@ class MemberRepositoryTest {
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
-    private GroupRepository groupRepository;
+    private OrganizationRepository organizationRepository;
 
     private final String MEMBER_NAME = "배만진";
     private final String ORGANIZATION_NAME = "OGQ";
@@ -37,7 +36,7 @@ class MemberRepositoryTest {
     void setUp() {
         repository.deleteAll();
         teamRepository.deleteAll();
-        groupRepository.deleteAll();
+        organizationRepository.deleteAll();
         organization = new Organization(ORGANIZATION_NAME);
         team = new Team(TEAM_NAME, organization);
         member = new Member(MEMBER_NAME, team);

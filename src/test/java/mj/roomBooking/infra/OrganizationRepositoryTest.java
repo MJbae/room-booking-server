@@ -17,14 +17,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@DisplayName("GroupRepository")
-class GroupRepositoryTest {
+@DisplayName("OrganizationRepository")
+class OrganizationRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
-    private GroupRepository repository;
+    private OrganizationRepository repository;
 
     private final String MEMBER_NAME = "배만진";
     private final String ORGANIZATION_NAME = "OGQ";
