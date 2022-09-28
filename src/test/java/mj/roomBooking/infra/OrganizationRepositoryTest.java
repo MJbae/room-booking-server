@@ -30,7 +30,9 @@ class OrganizationRepositoryTest {
     private final String MEMBER_NAME = "배만진";
     private final String ORGANIZATION_NAME = "OGQ";
     private final String TEAM_NAME = "모바일본부";
+    private final String SECOND_TEAM_NAME = "플랫폼본부";
     private Member member;
+    private List<Team> teams;
     private Team team;
     private Organization organization;
     private Organization organizationReturned;
@@ -45,85 +47,43 @@ class OrganizationRepositoryTest {
         team = new Team(TEAM_NAME, organization);
         member = new Member(MEMBER_NAME, team);
         organizationReturned = new Organization();
+
+        organization = repository.save(organization);
+        teams = organization.getTeams();
+        teams.add(team);
     }
 
     @Nested
-    @DisplayName("delete 메소드는")
-    class Describe_delete {
-        @Nested
-        @DisplayName("만약 조직 엔티티가 삭제된다면")
-        class Context_with_organization_entity_deleted {
-            private Long organizationId;
-            private Long teamId;
-            private Long memberId;
+    @DisplayName("영속성 전이된 컬렉션의 요소의 참조를 제거한다면")
+    class Describe_removing_reference_of_cascaded_collection_element {
+        @BeforeEach
+        void setUp() {
+            teams.remove(team);
+        }
 
-            @BeforeEach
-            void setUp() {
-                organization = repository.save(organization);
-                team = teamRepository.save(team);
-                member = memberRepository.save(member);
-
-                memberId = member.getId();
-                memberRepository.deleteById(memberId);
-
-                teamId = team.getId();
-                teamRepository.deleteById(teamId);
-
-                organizationId = organization.getId();
-                repository.deleteById(organizationId);
-            }
-
-            @Test
-            @DisplayName("조직 엔티티는 조회 시 빈값을 반환한다")
-            void it_returns_empty_result_when_finding_that_organization_entity() {
-                Optional<Organization> organizationReturned = repository.findById(organizationId);
-                assertThat(organizationReturned).isEmpty();
-            }
-
-            @Test
-            @DisplayName("연관된 팀 엔티티도 함께 삭제시킨다")
-            void it_deletes_associated_team() {
-                Optional<Team> teamReturned = teamRepository.findById(teamId);
-                assertThat(teamReturned).isEmpty();
-            }
-
-            @Test
-            @DisplayName("연관된 사용자 엔티티도 함께 삭제시킨다")
-            void it_deletes_associated_member() {
-                Optional<Member> memberReturnedAgain = memberRepository.findById(memberId);
-                assertThat(memberReturnedAgain).isEmpty();
-            }
+        @Test
+        @DisplayName("영속성 전이된 컬렉션의 요소가 삭제된다")
+        void it_deletes_cascaded_collection_element() {
+            organizationReturned = repository.findById(organization.getId()).get();
+            assertThat(organizationReturned.getTeams()).isEmpty();
         }
     }
 
     @Nested
-    @DisplayName("save 메소드는")
-    class Describe_save {
-        @Nested
-        @DisplayName("만약 팀 컬렉션에 팀이 추가된다면")
-        class Context_with_collection_contains_team {
-            @BeforeEach
-            void setUp() {
-                organization = repository.save(organization);
-                List<Team> teams = organization.getTeams();
-                teams.add(team);
-
-                organizationReturned = repository.findById(organization.getId()).get();
-            }
-
-            @Test
-            @DisplayName("조직 엔티티를 저장된다")
-            void it_saves_organization_entity() {
-                assertThat(organizationReturned.getName()).isEqualTo(ORGANIZATION_NAME);
-            }
-
-            @Test
-            @DisplayName("팀 엔티티를 저장된다")
-            void it_saves_team_entity() {
-                    assertThat(organizationReturned.getTeams().get(0).getName()).isEqualTo(TEAM_NAME);
-            }
-
-
+    @DisplayName("영속성 전이된 컬렉션의 요소의 참조를 추가한다면")
+    class Describe_adding_reference_of_cascaded_collection_element {
+        @BeforeEach
+        void setUp() {
+            Team secondTeam = new Team(SECOND_TEAM_NAME, organization);
+            teams.add(secondTeam);
         }
+
+        @Test
+        @DisplayName("영속성 전이된 컬렉션의 요소가 추가된다")
+        void it_saves_cascaded_collection_element() {
+            organizationReturned = repository.findById(organization.getId()).get();
+            assertThat(organizationReturned.getTeams().get(1).getName()).isEqualTo(SECOND_TEAM_NAME);
+        }
+
     }
 }
