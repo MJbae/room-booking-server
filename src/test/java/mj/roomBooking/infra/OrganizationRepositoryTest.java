@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,6 +56,7 @@ class OrganizationRepositoryTest {
             private Long organizationId;
             private Long teamId;
             private Long memberId;
+
             @BeforeEach
             void setUp() {
                 organization = repository.save(organization);
@@ -91,6 +93,43 @@ class OrganizationRepositoryTest {
                 Optional<Member> memberReturnedAgain = memberRepository.findById(memberId);
                 assertThat(memberReturnedAgain).isEmpty();
             }
+        }
+    }
+
+    @Nested
+    @DisplayName("save 메소드는")
+    class Describe_save {
+        @Nested
+        @DisplayName("만약 팀 컬렉션에 팀이 추가된다면")
+        class Context_with_collection_contains_team {
+            @BeforeEach
+            void setUp() {
+                organization = repository.save(organization);
+                Optional<Organization> organizationOptional = repository.findById(organization.getId());
+
+                if (organizationOptional.isPresent()) {
+                    Organization organizationPresent = organizationOptional.get();
+                    List<Team> teams = organizationPresent.getTeams();
+                    teams.add(team);
+
+                    organization = repository.save(organizationPresent);
+                }
+
+            }
+
+            @Test
+            @DisplayName("조직 엔티티를 저장된다")
+            void it_saves_organization_entity() {
+                assertThat(organization.getName()).isEqualTo(ORGANIZATION_NAME);
+            }
+
+            @Test
+            @DisplayName("팀 엔티티를 저장된다")
+            void it_saves_team_entity() {
+                    assertThat(organization.getTeams().get(0).getName()).isEqualTo(TEAM_NAME);
+            }
+
+
         }
     }
 }

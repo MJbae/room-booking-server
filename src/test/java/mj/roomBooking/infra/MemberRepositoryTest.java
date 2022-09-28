@@ -28,7 +28,6 @@ class MemberRepositoryTest {
     private final String ORGANIZATION_NAME = "OGQ";
     private final String TEAM_NAME = "모바일본부";
     private Member member;
-    private Member memberReturned;
     private Team team;
     private Organization organization;
 
@@ -67,6 +66,7 @@ class MemberRepositoryTest {
             void it_returns_member_referencing_organization() {
                 assertThat(member.getTeam().getOrganization().getName()).isEqualTo(ORGANIZATION_NAME);
             }
+
         }
     }
 
