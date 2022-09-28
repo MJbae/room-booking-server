@@ -24,4 +24,11 @@ public class Team extends BaseEntity{
         this.name = name;
         this.organization = organization;
     }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

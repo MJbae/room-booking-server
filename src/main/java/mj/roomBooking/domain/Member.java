@@ -19,4 +19,11 @@ public class Member extends BaseEntity{
         this.name = name;
         this.team = team;
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

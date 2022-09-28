@@ -15,10 +15,17 @@ public class Organization extends BaseEntity {
     private String name;
 
 
-    @OneToMany(mappedBy = "organization")
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     private List<Team> teams = new ArrayList<>();
 
     public Organization(String name){
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
