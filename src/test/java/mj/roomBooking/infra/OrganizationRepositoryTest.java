@@ -31,9 +31,9 @@ class OrganizationRepositoryTest {
     private final String ORGANIZATION_NAME = "OGQ";
     private final String TEAM_NAME = "모바일본부";
     private Member member;
-    private Member memberReturned;
     private Team team;
     private Organization organization;
+    private Organization organizationReturned;
 
     @BeforeEach
     void setUp() {
@@ -44,7 +44,7 @@ class OrganizationRepositoryTest {
         organization = new Organization(ORGANIZATION_NAME);
         team = new Team(TEAM_NAME, organization);
         member = new Member(MEMBER_NAME, team);
-        memberReturned = new Member();
+        organizationReturned = new Organization();
     }
 
     @Nested
@@ -105,28 +105,22 @@ class OrganizationRepositoryTest {
             @BeforeEach
             void setUp() {
                 organization = repository.save(organization);
-                Optional<Organization> organizationOptional = repository.findById(organization.getId());
+                List<Team> teams = organization.getTeams();
+                teams.add(team);
 
-                if (organizationOptional.isPresent()) {
-                    Organization organizationPresent = organizationOptional.get();
-                    List<Team> teams = organizationPresent.getTeams();
-                    teams.add(team);
-
-                    organization = repository.save(organizationPresent);
-                }
-
+                organizationReturned = repository.findById(organization.getId()).get();
             }
 
             @Test
             @DisplayName("조직 엔티티를 저장된다")
             void it_saves_organization_entity() {
-                assertThat(organization.getName()).isEqualTo(ORGANIZATION_NAME);
+                assertThat(organizationReturned.getName()).isEqualTo(ORGANIZATION_NAME);
             }
 
             @Test
             @DisplayName("팀 엔티티를 저장된다")
             void it_saves_team_entity() {
-                    assertThat(organization.getTeams().get(0).getName()).isEqualTo(TEAM_NAME);
+                    assertThat(organizationReturned.getTeams().get(0).getName()).isEqualTo(TEAM_NAME);
             }
 
 
