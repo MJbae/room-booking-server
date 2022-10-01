@@ -52,6 +52,10 @@ class OrganizationRepositoryTest {
     class Describe_removing_reference_of_cascaded_collection_element {
         @BeforeEach
         void setUp() {
+            // teams 컬렉션이 비어있으면 fetch join으로 organization 조회 불가하여 team 추가
+            Team secondTeam = new Team(SECOND_TEAM_NAME, organization);
+            teams.add(secondTeam);
+
             teams.remove(team);
         }
 
@@ -60,7 +64,7 @@ class OrganizationRepositoryTest {
         void it_deletes_cascaded_collection_element() {
             organizationReturned = repository.findById(organization.getId()).get();
 
-            assertThat(organizationReturned.getTeams()).isEmpty();
+            assertThat(organizationReturned.getTeams().get(0).getName()).isEqualTo(SECOND_TEAM_NAME);
         }
     }
 
