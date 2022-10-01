@@ -1,6 +1,5 @@
 package mj.roomBooking.infra;
 
-import mj.roomBooking.domain.Member;
 import mj.roomBooking.domain.Organization;
 import mj.roomBooking.domain.Team;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,11 +25,9 @@ class OrganizationRepositoryTest {
     @Autowired
     private OrganizationRepository repository;
 
-    private final String MEMBER_NAME = "배만진";
     private final String ORGANIZATION_NAME = "OGQ";
     private final String TEAM_NAME = "모바일본부";
     private final String SECOND_TEAM_NAME = "플랫폼본부";
-    private Member member;
     private List<Team> teams;
     private Team team;
     private Organization organization;
@@ -45,9 +41,7 @@ class OrganizationRepositoryTest {
 
         organization = new Organization(ORGANIZATION_NAME);
         team = new Team(TEAM_NAME, organization);
-        member = new Member(MEMBER_NAME, team);
         organizationReturned = new Organization();
-
         organization = repository.save(organization);
         teams = organization.getTeams();
         teams.add(team);
@@ -65,6 +59,7 @@ class OrganizationRepositoryTest {
         @DisplayName("영속성 전이된 컬렉션의 요소가 삭제된다")
         void it_deletes_cascaded_collection_element() {
             organizationReturned = repository.findById(organization.getId()).get();
+
             assertThat(organizationReturned.getTeams()).isEmpty();
         }
     }
@@ -82,6 +77,9 @@ class OrganizationRepositoryTest {
         @DisplayName("영속성 전이된 컬렉션의 요소가 추가된다")
         void it_saves_cascaded_collection_element() {
             organizationReturned = repository.findById(organization.getId()).get();
+
+            assertThat(organizationReturned.getTeams()).isNotEmpty();
+            assertThat(organizationReturned.getTeams().get(0).getName()).isEqualTo(TEAM_NAME);
             assertThat(organizationReturned.getTeams().get(1).getName()).isEqualTo(SECOND_TEAM_NAME);
         }
 
